@@ -1,0 +1,23 @@
+# ======================
+# Maven / Spring Boot
+# ======================
+/target/
+/*.log
+/*.jar
+/*.war
+
+# Ignore IDE/editor files
+*.iml
+/.idea/
+/.vscode/
+/*.class
+
+# Flyway / SQL migration (if you ever generate temp files)
+/src/main/resources/db/migration/*.lock
+
+# Docker
+docker-compose.override.yml
+
+# OS files
+.DS_Store
+Thumbs.db
