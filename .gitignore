@@ -21,3 +21,6 @@ docker-compose.override.yml
 # OS files
 **/.DS_Store #macOS
 Thumbs.db
+.DS_Store
+src/.DS_Store
+src/main/java/.DS_Store
