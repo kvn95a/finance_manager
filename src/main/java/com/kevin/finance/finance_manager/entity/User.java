@@ -8,7 +8,7 @@ import java.time.Instant; // import java.time.Instant;
 public class User {
     @Id // Specify the primary key
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; // Postgresql will need to use BIGINT for the ID field
 
     @Column(nullable = false, unique = true, length = 50) // Specify the column properties
     private String username;
