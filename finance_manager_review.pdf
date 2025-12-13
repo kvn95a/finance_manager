@@ -1,0 +1,77 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 2678 >>
+stream
+BT
+/F1 12 Tf
+1 0 0 1 72 760 Tm
+16 TL
+(Finance Manager Review) Tj
+T*
+() Tj
+T*
+(Key Findings) Tj
+T*
+(- [High] Returning the JPA entity from the account endpoints \(AccountController.java:34, AccountController.java:44\) serializes the attached User, leaking passwordHash and email values from User.java:16-20. Wrap responses in DTOs or add @JsonIgnore to the user field in Account.java:19-22.) Tj
+T*
+(- [High] The project includes Spring Security \(pom.xml:33-76\) but defines no security configuration. With the default auto-configuration every endpoint requires HTTP Basic with a generated password, so /api/auth/register and /api/accounts/** can't be used as documented. Either add a security config that permits these routes or drop the starter until you're ready.) Tj
+T*
+(- [Medium] Database credentials \(username/password kevin1995\) ship in source control in application-dev.yml:7-10, application-dev.properties:3-6, and docker-compose.yml:11-18. Move secrets to environment variables or an ignored config file.) Tj
+T*
+(- [Medium] AccountService.createForUser trusts the request body \(AccountService.java:31-36\). If startingBalance is omitted Hibernate inserts NULL into a NOT NULL column \(V1__create_user_and_account_tables.sql:11-17\). Default missing values to zero or validate the payload.) Tj
+T*
+(- [Low] application-dev.yml:7 targets port 5432 while application-dev.properties:3 targets 5433, making it easy to hit the wrong database. Consolidate to one dev profile or document the intended choice.) Tj
+T*
+(- [Low] No automated tests cover registration or account flows \(services or controllers\). Add happy-path tests to catch regressions.) Tj
+T*
+() Tj
+T*
+(Open Questions) Tj
+T*
+(- Are you planning to introduce JWT authentication soon? Knowing that timeline will guide whether to keep or temporarily remove Spring Security.) Tj
+T*
+(- Should the account API ever expose user context, or will a DTO that hides internal IDs be the long-term contract?) Tj
+T*
+() Tj
+T*
+(Project Overview) Tj
+T*
+(Backend Spring Boot service for personal finance: users register, create accounts, and list accounts against a PostgreSQL database via Flyway-managed schema and a Docker dev stack. Services encapsulate registration/account logic; controllers expose REST endpoints that currently return entities verbatim.) Tj
+T*
+() Tj
+T*
+(Next Steps) Tj
+T*
+(1. Introduce DTOs plus validation to stop leaking internal fields and to enforce required payloads.) Tj
+T*
+(2. Add a security configuration \(or disable the starter\) so documented endpoints are reachable, then cover key flows with tests.) Tj
+T*
+(3. Externalise secrets and pick a single dev config path to simplify setup.) Tj
+ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000002970 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+3040
+%%EOF

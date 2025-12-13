@@ -1,5 +1,6 @@
 package com.kevin.finance.finance_manager.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*; // import jakarta.persistence.Entity;
 import java.time.Instant; // import java.time.Instant;
 
@@ -13,6 +14,7 @@ public class User {
     @Column(nullable = false, unique = true, length = 50) // Specify the column properties
     private String username;
 
+    @JsonIgnore
     @Column(name = "password_hash", nullable = false, length = 100)
     private String passwordHash;
 
