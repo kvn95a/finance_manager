@@ -1,0 +1,31 @@
+# This is the configuration file for the production environment of the Finance Management System.
+# It sets up the PostgreSQL database connection, enables Flyway for database migrations, and more.
+# Note: Ensure that the PostgreSQL server is running and accessible at the specified URL.
+
+spring:
+  datasource:
+    url: ${DB_URL:?DB_URL is required in prod}
+    username: ${DB_USERNAME:?DB_USERNAME is required in prod}
+    password: ${DB_PASSWORD:?DB_PASSWORD is required in prod}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:?JWT_SECRET is required in prod}
+    issuer: ${JWT_ISSUER:?JWT_ISSUER is required in prod}
+    exp-minutes: ${JWT_EXP_MINUTES:?JWT_EXP_MINUTES is required in prod} 

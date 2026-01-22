@@ -1,5 +1,5 @@
 # This is the configuration file for the development environment of the Finance Management System.
-# It sets up the PostgreSQL database connection and enables Flyway for database migrations.
+# It sets up the PostgreSQL database connection, enables Flyway for database migrations, and more.
 # Note: Ensure that the PostgreSQL server is running and accessible at the specified URL.
 
 spring:
@@ -27,6 +27,6 @@ management:
 # JWT configuration for development environment
 app:
   jwt:
-    secret: ${JWT_SECRET:dev-only-change-me-please}
+    secret: ${JWT_SECRET:dev-only-change-me-please-dev-only-change-me-please-1234567890}
     issuer: ${JWT_ISSUER:finance_manager}
     exp-minutes: ${JWT_EXP_MINUTES:60}
