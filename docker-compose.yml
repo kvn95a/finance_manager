@@ -1,18 +1,29 @@
 version: '3.8'
 
+# Local development stack for the finance_manager app.
+# This compose file provisions only the PostgreSQL database used by application-dev.yml.
+
 services:
   db:
+    # Postgres image/version used for local development.
     image: postgres:15
+    # A stable container name makes it easy to reference in scripts.
     container_name: finance-postgres-dev
     environment:
+      # Database name the app connects to (matches application-dev.yml default DB_URL).
       POSTGRES_DB: ${POSTGRES_DB:-finance_db}
+      # Database username (overridable via env).
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      # Database password (overridable via env).
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me}
     ports:
+      # Map host port 5433 to container port 5432 (matches application-dev.yml default DB_URL).
       - "5433:5432"
     volumes:
+      # Persist database data across container restarts.
       - pgdata:/var/lib/postgresql/data
 
 volumes:
   pgdata:
+    # Named volume stored on the host for Postgres data.
     name: finance_postgres_data
