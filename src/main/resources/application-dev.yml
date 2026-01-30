@@ -1,6 +1,7 @@
 # This is the configuration file for the development environment of the Finance Management System.
 # It sets up the PostgreSQL database connection, enables Flyway for database migrations, and more.
 # Note: Ensure that the PostgreSQL server is running and accessible at the specified URL.
+# If you use docker-compose.yml, it maps localhost:5433 to the Postgres container and uses finance_db by default.
 
 spring:
   datasource:
