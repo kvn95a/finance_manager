@@ -28,6 +28,7 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
+		<!-- Keep JWT modules aligned from a single place. -->
 		<jjwt.version>0.13.0</jjwt.version>
 	</properties>
 
@@ -53,11 +54,13 @@
 			<artifactId>flyway-core</artifactId>
 		</dependency>
 		<dependency>
+			<!-- Database-specific Flyway support for PostgreSQL. -->
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-database-postgresql</artifactId>
 		</dependency>
 
 		<dependency>
+			<!-- H2 is test-only to avoid accidental runtime fallback from Postgres. -->
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>test</scope>
@@ -77,7 +80,7 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- JWT support -->
+		<!-- JWT support: explicit versions to keep Jackson aligned with Spring Boot BOM. -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>
