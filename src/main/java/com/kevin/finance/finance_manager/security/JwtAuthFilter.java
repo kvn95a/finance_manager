@@ -15,18 +15,35 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+/**
+ * Security filter that authenticates requests using a Bearer JWT.
+ * When token validation succeeds, it stores an authenticated principal
+ * in the Spring Security context for the current request.
+ */
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final CustomUserDetailsService userDetailsService;
 
+    /**
+     * @param jwtService JWT utility for parsing and validating tokens
+     * @param userDetailsService service used to load user details by username
+     */
     public JwtAuthFilter(JwtService jwtService,
                          CustomUserDetailsService userDetailsService) {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
     }
 
+    /**
+     * Validates Bearer token authentication for the current request.
+     * If token and user checks pass, sets an authenticated principal in the security context.
+     *
+     * @param request incoming HTTP request
+     * @param response outgoing HTTP response
+     * @param filterChain remaining filters in the chain
+     */
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
@@ -49,8 +66,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String token = authHeader.substring(7);
 
         try {
-
-            // 1️⃣ Extract username first (parses token once)
+            // Extract username from JWT.
             String username = jwtService.extractUsername(token);
 
             if (username == null || username.isBlank()) {
@@ -58,17 +74,17 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 return;
             }
 
-            // 2️⃣ Load user from DB
+            // Load user details for subject in token.
             UserDetails userDetails =
                     userDetailsService.loadUserByUsername(username);
 
-            // 3️⃣ Validate token against that user
+            // Validate token against loaded user.
             if (!jwtService.isTokenValid(token, userDetails)) {
                 filterChain.doFilter(request, response);
                 return;
             }
 
-            // 4️⃣ Create authentication
+            // Build and store authenticated principal for this request.
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(
                             userDetails,
@@ -94,4 +110,3 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 }
-
