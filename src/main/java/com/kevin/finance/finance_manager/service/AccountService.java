@@ -27,35 +27,31 @@ public class AccountService {
     }
 
     /**
-     * The createForUser method creates a new account for the user with the given ID.
-     * It performs the following:
-     * - Checks if the user exists.
-     * - Creates a new Account entity.
-     * - Saves the Account entity to the repository.
-     * @param userId the ID of the user for whom the account is being created
+     * Creates a new account for the authenticated username.
+     * @param username the authenticated username
      * @param name the name of the account
      * @param type the type of the account (e.g., savings, checking)
      * @param startingBalance the initial balance of the account
      * @return the created Account entity.
-     * @throws RuntimeException if the user does not exist.
      */
-    public Account createForUser(Long userId, String name, String type, BigDecimal startingBalance) {
-        User user = userRepo.findById(userId)
-            .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+    public Account createForUsername(String username, String name, String type, BigDecimal startingBalance) {
+        User user = findByUsernameOrThrow(username);
         Account acct = new Account(user, name, type, startingBalance);
         return accountRepo.save(acct);
     }
 
     /**
-     * Lists all accounts belonging to the given user ID.
-     * Throws if the user doesn’t exist.
-     * @param userId the ID of the user whose accounts are to be listed
+     * Lists all accounts belonging to the authenticated username.
+     * @param username the authenticated username
      * @return a list of Account entities associated with the user.
-     * @throws RuntimeException if the user does not exist.
      */
-    public List<Account> listByUser(Long userId) {
-        User user = userRepo.findById(userId)
-            .orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
+    public List<Account> listByUsername(String username) {
+        User user = findByUsernameOrThrow(username);
         return accountRepo.findAllByUser(user);
+    }
+
+    private User findByUsernameOrThrow(String username) {
+        return userRepo.findByUsername(username)
+            .orElseThrow(() -> new RuntimeException("User not found: " + username));
     }
 }
