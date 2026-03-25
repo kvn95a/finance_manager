@@ -22,7 +22,9 @@ public class AccountController {
     private final AccountService accountService;
 
     /**
-     * Request payload for creating an account owned by the authenticated user.
+     * Request payload for creating an account owned by the authenticated user, with basic details like name, type, and starting balance.
+     * this is a static inner class used as a DTO for deserializing the JSON request body when creating an account. 
+     * It contains fields for the account's display name, type, and initial balance.
      */
     public static class CreateAccountRequest {
         /** Display name for the account (for example: "Checking"). */
